@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 
 const deleteMovie = async (id) => {
-  const response = await fetch('/api/movies', {
+  const response = await fetch('/api/movies/route', {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id }),
@@ -20,7 +20,7 @@ const MovieList = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    fetch('/api/movies')
+    fetch('/api/movies/route')
       .then((res) => {
         if (!res.ok) {
           throw new Error('Failed to fetch data');
