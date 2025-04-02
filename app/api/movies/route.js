@@ -2,7 +2,6 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// GET - Fetch all movies
 export async function GET() {
   try {
     const movies = await prisma.movie_List.findMany(); 
@@ -12,25 +11,28 @@ export async function GET() {
   }
 }
 
-// POST - Add a new movie
 export async function POST(req) {
   try {
-    const newMovie = await req.json(); // Parse the incoming request body
+    const newMovie = await req.json();
 
     const movie = await prisma.movie_List.create({
-      data: newMovie,
+      data: {
+        actor_list: newMovie.actor_list,
+        movie_title: newMovie.movie_title,
+        release_year: newMovie.release_year,
+      },
     });
 
-    return new Response(JSON.stringify(movie), { status: 201 }); // Correct way to return JSON response
+    return new Response(JSON.stringify(movie), { status: 201 });
   } catch (error) {
     return new Response(JSON.stringify({ error: 'Failed to add movie' }), { status: 500 });
   }
 }
 
-// DELETE - Delete a movie by ID
+
 export async function DELETE(req) {
   try {
-    const { id } = await req.json(); // Parse the incoming JSON body to get movie ID
+    const { id } = await req.json();
 
     if (!id) {
       return new Response(JSON.stringify({ error: 'Movie ID is required' }), { status: 400 });
