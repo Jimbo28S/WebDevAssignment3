@@ -13,19 +13,20 @@ export async function GET() {
 
 export async function POST(req) {
   try {
-    const newMovie = await req.json();
+    const { movie_title, release_year, actor_list } = await req.json();
 
-    const movie = await prisma.movie_List.create({
+    const newMovie = await prisma.movie_List.create({
       data: {
-        actor_list: newMovie.actor_list,
-        movie_title: newMovie.movie_title,
-        release_year: newMovie.release_year,
+        movie_title,            
+        release_year: parseInt(release_year, 10),
+        actor_list: actor_list.split(','),
       },
     });
 
-    return new Response(JSON.stringify(movie), { status: 201 });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: 'Failed to add movie' }), { status: 500 });
+    return Response.json(newMovie, { status: 201 });
+  } 
+  catch (error) {
+    return Response.json({ error: 'Failed to add movie' }, { status: 500 });
   }
 }
 

@@ -3,9 +3,9 @@ import { useState } from 'react';
 
 const MovieForm = () => {
   const [formData, setFormData] = useState({
-    actor_list: [],
     movie_title: '',
     release_year: '',
+    actor_list: '',
   });
   
   const handleSubmit = async (e) => {
@@ -19,7 +19,7 @@ const MovieForm = () => {
 
     if (response.ok) {
       alert('Movie added!');
-      setFormData({ movie_title: '', release_year: '', actor_list: [] });
+      setFormData({ movie_title: '', release_year: '', actor_list: '' });
       window.location.reload();
     } else {
       alert('Error adding movie');
