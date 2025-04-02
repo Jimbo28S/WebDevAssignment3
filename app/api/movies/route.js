@@ -13,14 +13,9 @@ export async function GET() {
 
 export async function POST(req) {
   try {
-    const { movie_title, release_year, actor_list } = await req.json();
 
     const newMovie = await prisma.movie_List.create({
-      data: {
-        movie_title,            
-        release_year: parseInt(release_year, 10),
-        actor_list: actor_list.split(','),
-      },
+      data: req.body,
     });
 
     return Response.json(newMovie, { status: 201 });
